@@ -15,6 +15,8 @@ var Twitter = require("twitter");
 var action = process.argv[2];
 var value = process.argv[3];
 
+var fs = require("fs");
+
 //switch statement, containing functions to designate liri commands
 switch (action) {
   case "my-tweets":
@@ -37,6 +39,7 @@ switch (action) {
     console.log("Unexpected command line argument");
 }
 
+
 //MovieThis Function to access OMDB API
 
 function movieThis() {
@@ -53,90 +56,81 @@ function movieThis() {
   request(queryUrl, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       console.log(
-        "Here is the movie info you requested about " +
-          value.toUpperCase() +
-          ", Taddes, comliments of me, Liri: "
-      );
+        "Here is the movie info you requested about " + value.toUpperCase() + ", Taddes, comliments of me, Liri: ");
       console.log("========================MOVIES========================");
       console.log("Title: " + JSON.parse(body).Title);
       console.log("Year of Release: " + JSON.parse(body).Year);
       console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
-      console.log(
-        "Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value
-      );
-      console.log(
-        "Country/Countires of Production: " + JSON.parse(body).Country
-      );
+      console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+      console.log("Country/Countires of Production: " + JSON.parse(body).Country);
       console.log("Language: " + JSON.parse(body).Language);
       console.log("Plot: " + JSON.parse(body).Plot);
       console.log("Actors: " + JSON.parse(body).Actors);
       console.log("========================MOVIES========================");
+
     }
+
   });
+
 } //end of movieThis function
 
 function spotifyThisSong() {
   // var value = process.argv.slice(3).join("+");
   // console.log("value: " + value);
 
+  if (process.argv[3] === undefined) {
+    process.argv[3] = "The Sign Ace of";
+  }
+
   var spotify = new Spotify(keys.spotify);
 
   var value = process.argv.slice(3).join(" ");
 
-  spotify.search({ type: "track", query: value, limit: 1 }, function(
-    err,
-    data
-  ) {
+  spotify.search({ type: "track", query: value, limit: 1 }, function(err,data) {
     if (err) {
       return console.log("Error occurred: " + err);
     }
-
+    
     console.log(value);
 
     //declaration to break down code needed to access pathway
     var songInfo = data.tracks.items[0];
 
-    console.log(
-      "Here is the song info on " +
-        value.toUpperCase() +
-        " that you requested, Taddes, comliments of me, Liri: "
-    );
+    console.log("Here is the song info on " + value.toUpperCase() +" that you requested, Taddes, comliments of me, Liri: ");
     console.log("========================SPOTIFY========================");
     console.log("Artist(s): " + songInfo.artists[0].name);
     console.log("Song Name: " + songInfo.album.name);
     console.log("Album: " + songInfo.album.name);
     if (songInfo.preview_url === null) {
-      console.log("No song preview link available");
+        console.log("No song preview link available");
     } else {
       console.log("Album Preview URL: " + songInfo.preview_url);
     }
     console.log("========================SPOTIFY========================");
   });
+
 } //end of spotifyThisSong function
+
 
 //Twitter Module Function
 function myTweets() {
   var client = new Twitter(keys.twitter);
 
   var params = { screen_name: "taddes_k", count: 20 };
-  client.get("statuses/user_timeline", params, function(
-    error,
-    tweets,
-    response
-  ) {
+  client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if (!error) {
-      //   console.log(tweets);
+        console.log(tweets);
     }
     console.log("Here are your Tweets, Taddes, comliments of me, Liri: ");
     console.log("========================Tweets========================");
     for (var i = 0; i < tweets.length; i++) {
-      console.log("Tweet No." + i + ": " + tweets[i].text);
+      console.log("Tweet No." + (i + 1) + ": " + tweets[i].text);
     }
     console.log("========================Tweets========================");
   });
 }
 
-var fs = require("fs");
+
 
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data) {
@@ -144,19 +138,29 @@ function doWhatItSays() {
       return console.log("Do What It Says Error: " + error);
     }
 
+    else {
     console.log(data);
     var dataArr = data.split(",");
 
+    action = dataArr[0];
+    value = dataArr[1];
+
+    spotifyThisSong();
     console.log(dataArr);
+    }
+
   });
+
 }
 
 //output to log.txt function BONUS
 function appendToLog() {
-  fs.appendFile("log.txt", "\n" + JSON.stringify(value), function(error) {
+  fs.appendFile("log.txt",  "utf-8", function(error) {
     if (error) {
       return console.log("ERROR: " + error);
     }
     console.log("log file updated");
+
   });
+
 }
