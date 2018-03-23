@@ -1,13 +1,12 @@
 //DotENV require and config
 require("dotenv").config();
 
-
+var keys = require("./keys.js");
 //Request for OMDB API Module
 var request = require('request');
 
 //Spotify-API NPM Module
 var Spotify = require('node-spotify-api');
-
 
 //Twitter npm Module
 var Twitter = require('twitter');
@@ -34,12 +33,19 @@ switch (action) {
     case "do-what-it-says":
         doWhatItSays();
         break;
+
+    default: 
+        console.log("Unexpected command line argument");
 }
 
 
 //MovieThis Function to access OMDB API
 
 function movieThis() {
+
+
+ var value = process.argv.slice(3).join("+");
+ console.log("value: " + value);
 
     //set up query to OMDB API
     var queryUrl = "http://www.omdbapi.com/?t=" + value + "&apikey=4645abe9";
@@ -65,51 +71,53 @@ function movieThis() {
 
 function spotifyThisSong() {
 
-    var spotify = new Spotify({
-        id: "<your spotify client id>",
-        secret: "<your spotify client secret>"
-    });
+    // var value = process.argv.slice(3).join("+");
+    // console.log("value: " + value);
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function (err, data) {
+    var spotify = new Spotify(keys.spotify);
+    // {
+    //     id: process.env.SPOTIFY_ID,
+    //     secret: process.env.SPOTIFY_SECRET
+    // });
+
+    spotify.search({ type: 'track', query: value, limit: 1 }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-
-        console.log(data);
+        var songInfo = data.tracks.items[0];
+        console.log(songInfo.artists[0].name);
+        console.log(songInfo.album.name);
     });
 
 
 } //end of spotifyThisSong function
 
+//Twitter Module Function
 function myTweets() {
-    var client = new Twitter({
-        consumer_key: '',
-        consumer_secret: '',
-        access_token_key: '',
-        access_token_secret: ''
-      });
-       
-      var params = {screen_name: 'nodejs'};
+    var client = new Twitter(keys.twitter);
+
+      var params = {screen_name: 'taddes_k', count: 20};
       client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
           console.log(tweets);
         }
+        for (var i = 0; i <tweets.length ; i++) {
+            console.log(tweets[i].text);
+        }
       });
 }
 
-
-// var spotify = new Spotify(keys.spotify);
-// var client = new Twitter(keys.twitter);
-
 //output to log.txt function BONUS
 
-function appendToLog() {
+
 var fs = require("fs");
+
+function appendToLog() {
+
 
 fs.appendFile("log.txt", "\n" + value, function (error) {
     if (error) {
         return console.log("ERROR: " + error);
-
     }
 })
 }
