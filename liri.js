@@ -95,8 +95,8 @@ function spotifyThisSong() {
         console.log(value);
 
         //declaration to break down code needed to access pathway
-        var songInfo = data.tracks.items[1];
-        // console.log(songInfo);
+        var songInfo = data.tracks.items[0];
+
         console.log("Here is the song info on " + value.toUpperCase() + " that you requested, Taddes, comliments of me, Liri: ");
         console.log("========================SPOTIFY========================");
         console.log("Artist(s): " + songInfo.artists[0].name);
