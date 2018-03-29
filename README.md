@@ -2,6 +2,8 @@
 
 LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI will is command line node app that takes in parameters and gives back data.
 
+<hr>
+
 There are 4 primary functions Liri can execute. After initiating the node liri.js program, enter one these four functions:
 
 * `my-tweets`
