@@ -4,7 +4,7 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 
 <hr>
 
-There are 4 primary functions Liri can execute. After initiating the node liri.js program, enter one these four functions:
+There are 4 primary functions Liri can execute. After initiating the node liri.js program by typing `node liri.js `, enter one these four functions:
 
 * `my-tweets`
 Allows a user to access and print their 20 most recent tweets.
