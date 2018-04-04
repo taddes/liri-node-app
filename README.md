@@ -1,7 +1,9 @@
 # liri-node-app
 
 LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI will is command line node app that takes in parameters and gives back data.
+<br>
 
+![Crystals](liri.png)
 <hr>
 
 There are 4 primary functions Liri can execute. In order for them to work, the following NPM packages must be installed: `node-spotify-api`, `request`, `dotenv`, `request`, and  `fs`.  After accessing your  Node.js terminal, initiate the liri.js program by typing `node liri.js ` and enter one these four functions:
