@@ -9,7 +9,7 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 There are 4 primary functions Liri can execute. In order for them to work, the following NPM packages must be installed: `node-spotify-api`, `request`, `dotenv`, `request`, and  `fs`.  After accessing your  Node.js terminal, initiate the liri.js program by typing `node liri.js ` and enter one these four functions:
 
 * `my-tweets`
-Allows a user to access and print their 20 most recent tweets.
+Allows a user to access and print their 20 most recent tweets to the console.
 
 * `spotify-this-song`
 Takes user input for a given song and displays data on that specific song, including the artist, song name, album and a preview URL of the song on Spotify.
